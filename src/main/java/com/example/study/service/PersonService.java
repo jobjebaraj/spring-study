@@ -19,19 +19,42 @@ import java.util.concurrent.CompletableFuture;
 public class PersonService implements PersonInterface {
 
 
+    @Autowired
+    private PersonRepository personRepository;
 
-      @Autowired
-      private PersonRepository personRepository;
+    @Async
+    public CompletableFuture<List<PersonEntity>> getListOfPersons(String dept, Integer empId) {
 
-      @Async
-      public CompletableFuture<List<PersonEntity>> getListOfPersons() {
             return CompletableFuture.completedFuture(personRepository.getAllPersons());
-       }
 
-      /// @Transactional(isolation = Isolation.READ_UNCOMMITTED)
-      @Override
-      public void save(PersonEntity person) {
-           PersonEntity response = personRepository.save(person);
-      }
+    }
+
+    /// @Transactional(isolation = Isolation.READ_UNCOMMITTED)
+    @Override
+    public void save(PersonEntity person) {
+        PersonEntity response = personRepository.save(person);
+    }
+
+    @Override
+    public PersonEntity updatePerson(PersonEntity person) {
+
+      PersonEntity toBeUpdated =   personRepository.getByDeptAndEmpId(person.getDept(), person.getEmpId());
+      toBeUpdated.setName(person.getName());
+      toBeUpdated.setDept(person.getDept());
+      toBeUpdated.setAge(person.getAge());
+      toBeUpdated.setDesign(person.getDesign());
+      personRepository.save(toBeUpdated);
+      return toBeUpdated;
+    }
+
+    @Override
+    public PersonEntity deletePerson(Integer employeeId) {
+        PersonEntity deletePerson =   personRepository.getByEmployeeId(employeeId);
+        ///Valdations
+        personRepository.delete(deletePerson);
+        return deletePerson;
+    }
+
+
 }
 

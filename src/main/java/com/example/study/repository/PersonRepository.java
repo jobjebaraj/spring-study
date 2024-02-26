@@ -15,6 +15,13 @@ import java.util.Optional;
 public interface PersonRepository extends CrudRepository<PersonEntity, Long> {
     @Query("from PersonEntity")
     List<PersonEntity> getAllPersons();
+    @Query("from PersonEntity p where p.dept=:dept and p.empId=:employeeId")
+    PersonEntity getByDeptAndEmpId(String dept, Integer employeeId);
+
+    @Query("from PersonEntity p where p.empId=:employeeId")
+    PersonEntity getByEmployeeId(Integer employeeId);
+
+
 
 }
 

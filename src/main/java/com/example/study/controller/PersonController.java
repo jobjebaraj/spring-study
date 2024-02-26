@@ -26,10 +26,9 @@ public class PersonController {
 
     @GetMapping("/person")
     public List<PersonEntity> getPersonName(@RequestParam("dept") String dept,
-                                            @RequestParam("name") String name,
-                                            @RequestParam("age") String age) throws ExecutionException, InterruptedException {
+                                            @RequestParam("empId") Integer empId) throws ExecutionException, InterruptedException {
 
-        return personService.getListOfPersons().get();
+        return personService.getListOfPersons(dept, empId).get();
     }
 
     @PostMapping("/createPerson")
@@ -41,24 +40,19 @@ public class PersonController {
     }
 
     @PutMapping("/updatePerson")
-    public PersonEntity updatePerson(PersonEntity person) {
-
-        System.out.println("Persion DB " + personDB);
-        PersonEntity entity = personDB.get(person.getId());
-
-        entity.setAge(person.getAge());
-        entity.setDept(person.getDept());
-        entity.setDesign(person.getDesign());
-        entity.setName(person.getName());
-       /// personDB.put(Integer.valueOf(person.getId()), entity);
-
-        return entity;
+    public PersonEntity updatePerson(@RequestBody PersonEntity person) {
+        System.out.println(" Person in Controller " + person.toString());
+        return personService.updatePerson(person);
     }
-    /**
-     @DeleteMapping public Person deletePerson(Person person) {
-     return person;
+
+     @DeleteMapping
+     public PersonEntity deletePerson(@RequestParam("empId") Integer empId) {
+       PersonEntity deletedPerson = personService.deletePerson(empId);
+
+     return deletedPerson;
      }
 
+     /**
      @PatchMapping  /// Partial Update
      public Person partialUpdate(Person person) {
      return person;

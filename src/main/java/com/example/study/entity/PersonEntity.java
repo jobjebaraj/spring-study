@@ -18,6 +18,11 @@ public class PersonEntity {
     @Column(name="id")
     private Long Id;
 
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "emp_id_generator")
+//    @SequenceGenerator(name = "emp_id_generator", sequenceName = "demo_schema.employee_id_seq", allocationSize = 10)
+    @Column(name="employee_id")
+    private Integer empId;
+
     @Column(name="NAME")
     private String name;
 
