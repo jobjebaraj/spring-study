@@ -4,6 +4,8 @@ import com.example.study.PersonInterface.PersonInterface;
 import com.example.study.entity.PersonEntity;
 import com.example.study.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.mapping.AccessOptions;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -16,8 +18,12 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @Service
+@Primary
 public class PersonService implements PersonInterface {
 
+
+    @Value("${study.name.demo}")
+    private String appname;
 
     @Autowired
     private PersonRepository personRepository;
